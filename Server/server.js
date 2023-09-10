@@ -17,7 +17,7 @@ const sequelize = new Sequelize({
   dialect: 'mysql',
 });
 
-const YourModel = sequelize.define('YourModel', {
+const DataModel = sequelize.define('DataModel', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
