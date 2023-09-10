@@ -1,31 +1,46 @@
-
+/* Calendar container styles */
 .calendar-container {
   text-align: center;
   margin: 20px;
 }
 
-
-.react-calendar {
+/* Calendar styles */
+.calendar {
   max-width: 400px;
   margin: 0 auto;
 }
 
-
+/* Selected date styles */
 .selected-date {
   font-weight: bold;
   margin: 20px 0;
 }
 
+/* Loading message styles */
+.loading {
+  font-size: 1.2em;
+  margin: 20px 0;
+}
 
+/* Error message styles */
+.error-message {
+  color: #ff0000;
+  font-size: 1.2em;
+  margin: 20px 0;
+}
+
+/* Time slots container styles */
 .time-slots {
   margin: 20px 0;
 }
 
-.time-slots h3 {
+/* Time slots header styles */
+.time-slots-header {
   font-size: 1.2em;
   margin-bottom: 10px;
 }
 
+/* Time slot button styles */
 .time-slot-button {
   background-color: #007bff;
   color: #fff;
@@ -37,6 +52,19 @@
   font-size: 1em;
 }
 
+/* Time slot button hover styles */
 .time-slot-button:hover {
   background-color: #0056b3;
+}
+
+/* Styles for today's date */
+.today {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+/* Styles for blocked/past dates */
+.blocked {
+  background-color: #ccc;
+  color: #999;
 }
