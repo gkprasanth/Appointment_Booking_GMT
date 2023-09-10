@@ -1,0 +1,42 @@
+
+.calendar-container {
+  text-align: center;
+  margin: 20px;
+}
+
+
+.react-calendar {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+
+.selected-date {
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+
+.time-slots {
+  margin: 20px 0;
+}
+
+.time-slots h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.time-slot-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1em;
+}
+
+.time-slot-button:hover {
+  background-color: #0056b3;
+}
