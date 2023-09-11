@@ -28,7 +28,6 @@ const TimeSlot = sequelize.define('TimeSlot', {
   },
 });
 
-// Define your Sequelize models here
 const Appointments = sequelize.define('Appointments', {
   id: {
     type: DataTypes.INTEGER,
@@ -49,4 +48,25 @@ const Appointments = sequelize.define('Appointments', {
   },
 });
 
-module.exports = { sequelize, TimeSlot ,Appointments };
+const Consultant = sequelize.define('Consultant', {
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  workingHours: {
+    type: DataTypes.STRING,
+  },
+  breaks: {
+    type: DataTypes.STRING,
+  },
+  daysOff: {
+    type: DataTypes.STRING,
+  },
+});
+
+module.exports = { sequelize, TimeSlot, Appointments, Consultant };

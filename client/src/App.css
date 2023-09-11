@@ -1,70 +1,191 @@
-/* Calendar container styles */
-.calendar-container {
-  text-align: center;
-  margin: 20px;
-}
-
-/* Calendar styles */
-.calendar {
+.booking-form {
   max-width: 400px;
   margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-/* Selected date styles */
-.selected-date {
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
   font-weight: bold;
-  margin: 20px 0;
+  margin-bottom: 5px;
 }
 
-/* Loading message styles */
-.loading {
-  font-size: 1.2em;
-  margin: 20px 0;
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-/* Error message styles */
-.error-message {
-  color: #ff0000;
-  font-size: 1.2em;
-  margin: 20px 0;
-}
-
-/* Time slots container styles */
-.time-slots {
-  margin: 20px 0;
-}
-
-/* Time slots header styles */
-.time-slots-header {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-}
-
-/* Time slot button styles */
-.time-slot-button {
+button[type="submit"] {
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 8px 12px;
-  margin: 5px;
+  border-radius: 5px;
+  padding: 10px 20px;
   cursor: pointer;
-  border-radius: 4px;
-  font-size: 1em;
+  font-weight: bold;
 }
 
-/* Time slot button hover styles */
-.time-slot-button:hover {
+.message {
+  color: green;
+  margin-top: 10px;
+}
+.consultant-list {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.consultant-list h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 20px;
+  text-align: left;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+ul li h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+ul li p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.loading-message {
+  margin-top: 20px;
+  font-size: 16px;
+}
+.consultant-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.consultant-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
   background-color: #0056b3;
 }
 
-/* Styles for today's date */
-.today {
-  background-color: #4caf50;
-  color: #fff;
+.message {
+  margin-top: 20px;
+  font-size: 16px;
+}
+.consultant-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
 }
 
-/* Styles for blocked/past dates */
-.blocked {
-  background-color: #ccc;
-  color: #999;
+.consultant-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
 }
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 16px;
+}
+
