@@ -59,7 +59,7 @@ To run this web application on your local machine, follow these steps:
 - Create a MySQL database and import the schema provided in the `database_schema.sql` file.
 
 4. Set up environment variables:
-- Create a `.env` file in the `backend` directory and configure it with your database connection details, Google Calendar API credentials, and email service credentials.
+- Create a `.env` file in the `server` directory and configure it with your database connection details, Google Calendar API credentials, and email service credentials.
 
 5. Start the backend server: with cmd ### npm start
 
