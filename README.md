@@ -48,11 +48,11 @@ To run this web application on your local machine, follow these steps:
 
 2. Install the necessary dependencies for both frontend and backend.
 
-cd gmtTask
-cd client
-npm install
-cd ../server
-npm install
+- cd gmtTask
+- client
+- npm install
+- cd ../server
+- npm install
 
 
 3. Configure the MySQL database:
