@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function ConsultantForm() {
   const [workingHours, setWorkingHours] = useState('');
   const [breaks, setBreaks] = useState('');
   const [daysOff, setDaysOff] = useState('');
   const [message, setMessage] = useState('');
+
+  const history = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,10 +23,10 @@ function ConsultantForm() {
       .post('/api/consultants', consultantAvailability)
       .then((response) => {
         setMessage('Consultant availability set successfully.');
-        // Clear the form inputs
         setWorkingHours('');
         setBreaks('');
         setDaysOff('');
+        history('/consultants');
       })
       .catch((error) => {
         console.error('Error setting consultant availability:', error);

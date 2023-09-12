@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
+
 
 function ConsultantAvailability() {
   const [workingHours, setWorkingHours] = useState('');
   const [breaks, setBreaks] = useState('');
   const [daysOff, setDaysOff] = useState('');
+  
+  const history = useNavigate();
 
   const handleSaveAvailability = () => {
     const availabilityData = {
@@ -17,6 +21,7 @@ function ConsultantAvailability() {
       .post('/api/consultants', availabilityData)
       .then((response) => {
         console.log('Consultant availability saved:', response.data);
+        history('/consultants');
       })
       .catch((error) => {
         console.error('Error saving consultant availability:', error);
@@ -32,6 +37,7 @@ function ConsultantAvailability() {
           type="text"
           id="workingHours"
           value={workingHours}
+          required
           onChange={(e) => setWorkingHours(e.target.value)}
         />
       </div>
@@ -41,6 +47,7 @@ function ConsultantAvailability() {
           type="text"
           id="breaks"
           value={breaks}
+          required
           onChange={(e) => setBreaks(e.target.value)}
         />
       </div>
@@ -50,6 +57,7 @@ function ConsultantAvailability() {
           type="text"
           id="daysOff"
           value={daysOff}
+          required
           onChange={(e) => setDaysOff(e.target.value)}
         />
       </div>

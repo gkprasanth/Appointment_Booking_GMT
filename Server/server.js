@@ -2,19 +2,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { google } = require('googleapis');
-const { sequelize, Appointments } = require('./database'); 
+const { sequelize, Appointments } = require('./database');
+const nodemailer = require('nodemailer'); // Added Nodemailer
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-  res.json("Server Running Successfully");
-});
-
-// const key = require('./path-to-your-credentials.json'); /
+// Define your Google Calendar authentication (auth) and calendar objects
+// based on your credentials. Uncomment and configure as needed.
+// const key = require('./path-to-your-credentials.json');
 // const auth = new google.auth.JWT({
 //   email: key.client_email,
 //   key: key.private_key,
@@ -22,6 +21,7 @@ app.get('/', (req, res) => {
 // });
 // const calendar = google.calendar('v3');
 
+// Function to create a Google Calendar event
 const createGoogleCalendarEvent = async (selectedTimeSlot, name, email) => {
   try {
     const event = {
@@ -32,15 +32,15 @@ const createGoogleCalendarEvent = async (selectedTimeSlot, name, email) => {
         timeZone: 'UTC',
       },
       end: {
-        dateTime: selectedTimeSlot, 
+        dateTime: selectedTimeSlot,
         timeZone: 'UTC',
       },
-      attendees: [{ email }], 
+      attendees: [{ email }],
     };
 
     const response = await calendar.events.insert({
       auth,
-      calendarId: 'primary', 
+      calendarId: 'primary',
       resource: event,
     });
 
@@ -51,18 +51,19 @@ const createGoogleCalendarEvent = async (selectedTimeSlot, name, email) => {
   }
 };
 
+// API endpoint to fetch available time slots
 app.get('/api/available-time-slots', async (req, res) => {
   try {
     const { selectedDate } = req.query;
+
     if (!selectedDate) {
       return res.status(400).json({ error: 'Selected date is missing' });
     }
 
     const availableTimeSlots = await Appointments.findAll({
-      attributes: ['timeSlot'],
       where: {
         date: selectedDate,
-        isBooked: false,
+        isBooked: true,
       },
     });
 
@@ -70,9 +71,7 @@ app.get('/api/available-time-slots', async (req, res) => {
     const allTimeSlots = [
       '9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '2:00 PM', '3:00 PM', '4:00 PM',
     ];
-    const remainingTimeSlots = allTimeSlots.filter(
-      (slot) => !bookedTimeSlots.includes(slot)
-    );
+    const remainingTimeSlots = allTimeSlots.filter((slot) => !bookedTimeSlots.includes(slot));
 
     res.json({ availableTimeSlots: remainingTimeSlots });
   } catch (error) {
@@ -81,6 +80,7 @@ app.get('/api/available-time-slots', async (req, res) => {
   }
 });
 
+
 app.post('/api/book-appointment', async (req, res) => {
   try {
     const { date, timeSlot, userEmail } = req.body;
@@ -88,28 +88,62 @@ app.post('/api/book-appointment', async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
 
-    const [updatedRowsCount] = await Appointments.update(
-      { isBooked: true },
-      {
-        where: {
-          date,
-          timeSlot,
-          isBooked: false,
-        },
+    const result = await Appointments.create({
+      date: date,
+      timeSlot: timeSlot,
+      isBooked: true,
+    });
+
+    console.log(result);
+
+    // Create Google Calendar event
+    // await createGoogleCalendarEvent(date + 'T' + timeSlot, 'Consultation', userEmail);
+
+  
+    const transporter = nodemailer.createTransport({
+      host: 'your-smtp-host',
+      port: 587,
+      secure: false,
+      auth: {
+        user: 'your-email@example.com',
+        pass: 'your-email-password',
+      },
+    });
+
+    const mailOptions = {
+      from: 'your-email@example.com',
+      to: userEmail, 
+      subject: 'Appointment Confirmation',
+      text: 'Your appointment has been booked successfully.', 
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Error sending email:', error);
+      } else {
+        console.log('Email sent:', info.response);
       }
-    );
+    });
 
-    if (updatedRowsCount === 1) {
-      createGoogleCalendarEvent(date + 'T' + timeSlot, 'Consultation', userEmail);
+    transporter.close();
 
-      res.status(200).json({ message: 'Appointment booked successfully' });
-    } else {
-      res.status(400).json({ error: 'Failed to book appointment' });
-    }
+    res.status(200).json({ message: 'Appointment booked successfully' });
   } catch (error) {
     console.error('Error booking appointment:', error);
     res.status(500).json({ error: 'Failed to book appointment' });
   }
+});
+
+const consultants = [];
+
+app.get('/api/consultants', (req, res) => {
+  res.json(consultants);
+});
+
+app.post('/api/consultants', (req, res) => {
+  const newConsultant = req.body;
+  consultants.push(newConsultant);
+  res.status(201).json(newConsultant);
 });
 
 sequelize.sync().then(() => {
