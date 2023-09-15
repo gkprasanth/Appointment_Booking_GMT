@@ -1,4 +1,4 @@
-# Appointment Booking Web Application
+# Appointment Booking System Web Application
 
 This web application allows users to schedule appointments with consultants. It provides user-facing features for booking appointments and consultant-facing features for managing availability. The application is built using the following technology stack:
 
@@ -56,19 +56,19 @@ To run this web application on your local machine, follow these steps:
 
 
 3. Configure the MySQL database:
-- Create a MySQL database and import the schema provided in the `database_schema.sql` file.
+- Create a MySQL database and import the schema provided in the `database.js` file.
 
 4. Set up environment variables:
 - Create a `.env` file in the `server` directory and configure it with your database connection details, Google Calendar API credentials, and email service credentials.
 
-5. Start the backend server: with cmd ### npm start
+5. Start the backend server: with cmd `npm start`
 
-6. Start the frontend: with cmd ### npm start
+6. Start the frontend: with cmd `npm start`
 
 
 7. Access the web application in your browser at `http://localhost:3000`.
 
-## Thank You
+# Thank You
 
 
 

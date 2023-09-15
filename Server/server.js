@@ -51,7 +51,6 @@ const createGoogleCalendarEvent = async (selectedTimeSlot, name, email) => {
   }
 };
 
-// API endpoint to fetch available time slots
 app.get('/api/available-time-slots', async (req, res) => {
   try {
     const { selectedDate } = req.query;
@@ -96,7 +95,6 @@ app.post('/api/book-appointment', async (req, res) => {
 
     console.log(result);
 
-    // Create Google Calendar event
     // await createGoogleCalendarEvent(date + 'T' + timeSlot, 'Consultation', userEmail);
 
   
