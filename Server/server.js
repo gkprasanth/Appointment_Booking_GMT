@@ -3,25 +3,26 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { google } = require('googleapis');
 const { sequelize, Appointments } = require('./database');
-const nodemailer = require('nodemailer'); // Added Nodemailer
+const nodemailer = require('nodemailer'); 
 
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
-// Define your Google Calendar authentication (auth) and calendar objects
-// based on your credentials. Uncomment and configure as needed.
-// const key = require('./path-to-your-credentials.json');
-// const auth = new google.auth.JWT({
-//   email: key.client_email,
-//   key: key.private_key,
-//   scopes: ['https://www.googleapis.com/auth/calendar'],
-// });
-// const calendar = google.calendar('v3');
 
-// Function to create a Google Calendar event
+const key = require('./calendarapisource.json');
+const auth = new google.auth.JWT({
+  email: process.env.client_email,
+  key: process.env.private_key_id,
+  scopes: ['https://www.googleapis.com/auth/calendar'],
+});
+
+
+const calendar = google.calendar('v3');
+
+
 const createGoogleCalendarEvent = async (selectedTimeSlot, name, email) => {
   try {
     const event = {
@@ -94,36 +95,47 @@ app.post('/api/book-appointment', async (req, res) => {
     });
 
     console.log(result);
-
-    // await createGoogleCalendarEvent(date + 'T' + timeSlot, 'Consultation', userEmail);
+    
 
   
+    const nodemailer = require('nodemailer');
+    
     const transporter = nodemailer.createTransport({
-      host: 'your-smtp-host',
+      host: 'smtp.gmail.com',
       port: 587,
       secure: false,
       auth: {
-        user: 'your-email@example.com',
-        pass: 'your-email-password',
-      },
-    });
-
-    const mailOptions = {
-      from: 'your-email@example.com',
-      to: userEmail, 
-      subject: 'Appointment Confirmation',
-      text: 'Your appointment has been booked successfully.', 
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error('Error sending email:', error);
-      } else {
-        console.log('Email sent:', info.response);
+        user: process.env.MAIL_ID,
+        pass: process.env.M_PASSWORD,
       }
     });
+    
+  
+    const sendEmail = (userEmail) => {
+      const mailOptions = {
+        from: process.env.MAIL_ID,
+        to: userEmail,
+        subject: 'Appointment Confirmation',
+        text: 'Your appointment has been booked successfully.',
+      };
+    
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Error sending email:', error);
+        } else {
+          console.log('Email sent:', info.response);
+        }
+    
+        transporter.close();
+      });
+    };
+   
+    
+    // await createGoogleCalendarEvent(date + 'T' + timeSlot, 'Consultation', userEmail);
+    sendEmail(userEmail);
+    
+    
 
-    transporter.close();
 
     res.status(200).json({ message: 'Appointment booked successfully' });
   } catch (error) {
@@ -143,6 +155,7 @@ app.post('/api/consultants', (req, res) => {
   consultants.push(newConsultant);
   res.status(201).json(newConsultant);
 });
+
 
 sequelize.sync().then(() => {
   app.listen(port, () => {

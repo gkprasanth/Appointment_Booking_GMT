@@ -4,7 +4,6 @@ import BookingForm from './Components/BookingPage';
 import ConsultantForm from './Components/ConsultantForm';
 import ConsultantList from './Components/ConsultantList';
 import ConsultantAvailability from './Components/ConsultantAvailability';
-import GoogleCalendar from './Components/GoogleCalendar';
 
 function App() {
   return (
@@ -17,7 +16,6 @@ function App() {
             <Route path="/add-consultant" element={<ConsultantForm />} />
             <Route path="/consultants" element={<ConsultantList/>} />
             <Route path="/consultants/:id/edit" element={<ConsultantAvailability />} />
-            <Route path="/google-calendar" element={<GoogleCalendar />} />
           </Routes>
         </main>
       </div>

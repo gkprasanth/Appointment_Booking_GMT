@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const ConsultantList = () => {
+const ConsultantList = ( userName ) => {
   const [consultants, setConsultants] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,9 @@ const ConsultantList = () => {
   }, []);
 
   const goToGoogleCalendar = () => {
-    navigate("/google-calendar");
+    setTimeout(() => {
+      navigate("/");
+    }, 5000);
   };
 
   return (
@@ -51,7 +53,7 @@ const ConsultantList = () => {
             }}
             onClick={goToGoogleCalendar}
           >
-            Calendar
+            EXIT
           </button>
         </div>
       )}

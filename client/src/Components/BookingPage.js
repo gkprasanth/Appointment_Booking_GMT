@@ -11,7 +11,7 @@ function BookingForm() {
   const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
   const [userEmail, setUserEmail] = useState('');
-  const [userName, setUserName] = useState(''); // Add a state variable for the name
+  const [userName, setUserName] = useState('');
   const [message, setMessage] = useState('');
   const history = useNavigate();
 
@@ -44,12 +44,15 @@ function BookingForm() {
         date: formattedDate,
         timeSlot: selectedTimeSlot,
         userEmail,
-        userName, // Include the name in the POST request
+        userName,
       });
 
       setMessage(response.data.message);
 
-      // After successful booking, navigate to a success page
+      if (response.data.message === 'Appointment booked successfully') {
+        alert('Appointment booked successfully');
+      }
+
       history('/add-consultant');
     } catch (error) {
       console.error('Error booking appointment:', error);
@@ -62,13 +65,15 @@ function BookingForm() {
       <h2>Book an Appointment</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <div className="calendar-container">
+          <label htmlFor="calendar">Select Date:</label>
+          <div id="calendar" className="calendar-container">
             <Calendar onChange={setSelectedDate} value={selectedDate} />
           </div>
         </div>
         <div className="form-group">
-          <label>Select Time Slot:</label>
+          <label htmlFor="timeSlot">Select Time Slot:</label>
           <select
+            id="timeSlot"
             value={selectedTimeSlot}
             onChange={(e) => setSelectedTimeSlot(e.target.value)}
           >
@@ -81,17 +86,19 @@ function BookingForm() {
           </select>
         </div>
         <div className="form-group">
-          <label>Your Name:</label>
+          <label htmlFor="userName">Your Name:</label>
           <input
             type="text"
+            id="userName"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label>Your Email:</label>
+          <label htmlFor="userEmail">Your Email:</label>
           <input
             type="email"
+            id="userEmail"
             value={userEmail}
             onChange={(e) => setUserEmail(e.target.value)}
           />

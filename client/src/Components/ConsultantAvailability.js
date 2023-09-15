@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; 
-
+import { useNavigate } from 'react-router-dom';
+import "../App.css"
 
 function ConsultantAvailability() {
   const [workingHours, setWorkingHours] = useState('');
   const [breaks, setBreaks] = useState('');
   const [daysOff, setDaysOff] = useState('');
-  
+
   const history = useNavigate();
 
   const handleSaveAvailability = () => {
@@ -21,7 +21,9 @@ function ConsultantAvailability() {
       .post('/api/consultants', availabilityData)
       .then((response) => {
         console.log('Consultant availability saved:', response.data);
-        history('/consultants');
+        setTimeout(() => {
+          history('/consultants');
+        }, 2000);
       })
       .catch((error) => {
         console.error('Error saving consultant availability:', error);

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-function ConsultantForm() {
+function ConsultantForm(userName) {
   const [workingHours, setWorkingHours] = useState('');
   const [breaks, setBreaks] = useState('');
   const [daysOff, setDaysOff] = useState('');
@@ -26,7 +26,7 @@ function ConsultantForm() {
         setWorkingHours('');
         setBreaks('');
         setDaysOff('');
-        history('/consultants');
+        history('/consultants/:id/edit');
       })
       .catch((error) => {
         console.error('Error setting consultant availability:', error);

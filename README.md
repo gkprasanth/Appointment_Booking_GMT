@@ -48,7 +48,7 @@ To run this web application on your local machine, follow these steps:
 
 2. Install the necessary dependencies for both frontend and backend.
 
-- cd gmtTask
+
 - client
 - npm install
 - cd ../server
@@ -69,7 +69,3 @@ To run this web application on your local machine, follow these steps:
 7. Access the web application in your browser at `http://localhost:3000`.
 
 # Thank You
-
-
-
-
