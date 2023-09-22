@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import 'react-datepicker/dist/react-datepicker.css';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import Calendar from 'react-calendar';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
@@ -15,19 +14,40 @@ function BookingForm() {
   const [message, setMessage] = useState('');
   const history = useNavigate();
 
-  useEffect(() => {
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-      axios
-        .get(`/api/available-time-slots?selectedDate=${formattedDate}`)
-        .then((response) => {
-          setAvailableTimeSlots(response.data.availableTimeSlots);
-        })
-        .catch((error) => {
-          console.error('Error fetching available time slots:', error);
-        });
+  const today = new Date();
+
+  const tileClassName = ({ date }) => {
+    if (date < today) {
+      return 'disabled-date';
     }
-  }, [selectedDate]);
+    return null;
+  };
+
+  const handleDateClick = (date) => {
+    if (date <= today) {
+      alert('Selected date is finished and cannot be booked.');
+    } else {
+      setSelectedDate(date);
+    }
+  };
+
+  const fetchAvailableTimeSlots = async (formattedDate) => {
+    try {
+      const response = await axios.get(`/api/available-time-slots?selectedDate=${formattedDate}`);
+      setAvailableTimeSlots(response.data.availableTimeSlots);
+    } catch (error) {
+      console.error('Error fetching available time slots:', error);
+    }
+  };
+
+  const fetchGoogleCalendarEvents = async () => {
+    try {
+      const response = await axios.get('/api/google-calendar-events');
+      console.log('Google Calendar events:', response.data.events);
+    } catch (error) {
+      console.error('Error fetching Google Calendar events:', error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,12 +73,20 @@ function BookingForm() {
         alert('Appointment booked successfully');
       }
 
-      history('/add-consultant');
+      history('/consultants/:id/edit');
     } catch (error) {
       console.error('Error booking appointment:', error);
       setMessage('Failed to book appointment. Please try again later.');
     }
   };
+
+  useEffect(() => {
+    if (selectedDate) {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      fetchAvailableTimeSlots(formattedDate);
+      fetchGoogleCalendarEvents();  
+    }
+  }, [selectedDate]);
 
   return (
     <div className="booking-form">
@@ -67,7 +95,11 @@ function BookingForm() {
         <div className="form-group">
           <label htmlFor="calendar">Select Date:</label>
           <div id="calendar" className="calendar-container">
-            <Calendar onChange={setSelectedDate} value={selectedDate} />
+            <Calendar
+              onChange={handleDateClick}
+              value={selectedDate}
+              tileClassName={tileClassName}
+            />
           </div>
         </div>
         <div className="form-group">
@@ -91,6 +123,7 @@ function BookingForm() {
             type="text"
             id="userName"
             value={userName}
+            required
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
@@ -100,6 +133,7 @@ function BookingForm() {
             type="email"
             id="userEmail"
             value={userEmail}
+            required
             onChange={(e) => setUserEmail(e.target.value)}
           />
         </div>

@@ -21,10 +21,10 @@ const ConsultantList = ( userName ) => {
       });
   }, []);
 
-  const goToGoogleCalendar = () => {
+  const Goto = () => {
     setTimeout(() => {
       navigate("/");
-    }, 5000);
+    });
   };
 
   return (
@@ -51,7 +51,7 @@ const ConsultantList = ( userName ) => {
               background: "crimson",
               color: "whitesmoke",
             }}
-            onClick={goToGoogleCalendar}
+            onClick= {Goto}
           >
             EXIT
           </button>
