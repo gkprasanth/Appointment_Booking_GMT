@@ -14,6 +14,20 @@ function BookingForm() {
   const [message, setMessage] = useState('');
   const history = useNavigate();
 
+  useEffect(() => {
+    if (selectedDate) {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      axios
+        .get(`/api/available-time-slots?selectedDate=${formattedDate}`)
+        .then((response) => {
+          setAvailableTimeSlots(response.data.availableTimeSlots);
+        })
+        .catch((error) => {
+          console.error('Error fetching available time slots:', error);
+        });
+    }
+  }, [selectedDate]);
+
   const today = new Date();
 
   const tileClassName = ({ date }) => {
@@ -28,24 +42,6 @@ function BookingForm() {
       alert('Selected date is finished and cannot be booked.');
     } else {
       setSelectedDate(date);
-    }
-  };
-
-  const fetchAvailableTimeSlots = async (formattedDate) => {
-    try {
-      const response = await axios.get(`/api/available-time-slots?selectedDate=${formattedDate}`);
-      setAvailableTimeSlots(response.data.availableTimeSlots);
-    } catch (error) {
-      console.error('Error fetching available time slots:', error);
-    }
-  };
-
-  const fetchGoogleCalendarEvents = async () => {
-    try {
-      const response = await axios.get('/api/google-calendar-events');
-      console.log('Google Calendar events:', response.data.events);
-    } catch (error) {
-      console.error('Error fetching Google Calendar events:', error);
     }
   };
 
@@ -79,14 +75,6 @@ function BookingForm() {
       setMessage('Failed to book appointment. Please try again later.');
     }
   };
-
-  useEffect(() => {
-    if (selectedDate) {
-      const formattedDate = selectedDate.toISOString().split('T')[0];
-      fetchAvailableTimeSlots(formattedDate);
-      fetchGoogleCalendarEvents();  
-    }
-  }, [selectedDate]);
 
   return (
     <div className="booking-form">
